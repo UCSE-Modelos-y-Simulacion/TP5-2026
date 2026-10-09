@@ -1,0 +1,25 @@
+{
+    "tp": "TP5",
+    "titulo": "Pruebas de Independencia para Números Pseudoaleatorios",
+    "catedra": "Modelos y Simulación - UCSE 2026",
+    "legajo": "Sadir",
+    "asignacion": "asignacion_5",
+    "timestamp": "2026-10-09T22:56:49.920Z",
+    "puntaje": "100/100 Pts",
+    "respuestas": {
+        "ejA": {
+            "c0": "24",
+            "mu": "26.3333",
+            "var": "6.7889",
+            "Z0": "-0.8955",
+            "Z_crit": "1.9600",
+            "conclusion": "ACEPTA"
+        },
+        "ejB": {
+            "chi2_0": "30.0970",
+            "chi2_crit": "12.5916",
+            "conclusion": "RECHAZA"
+        }
+    },
+    "firma_sha256": "1d05585de03fd7782b22ccb246bf683120e43b11310299201335ac25df1a1347"
+}

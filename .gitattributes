@@ -1,0 +1,15 @@
+# Set default behavior
+* text=auto eol=lf
+
+# Force scripts and data to have LF line endings
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.yml text eol=lf
+
+# Batch files require CRLF for Windows Command Prompt
+*.bat text eol=crlf

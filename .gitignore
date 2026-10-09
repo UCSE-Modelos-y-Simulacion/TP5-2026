@@ -1,0 +1,18 @@
+# Compiled and temporary files
+__pycache__/
+*.pyc
+*.log
+scratch/
+.DS_Store
+Thumbs.db
+scratch_*.py
+generate_tp5_full.py
+
+# Master Rubric (DO NOT EXPOSE - Private Teacher Key)
+rubric_tp*_master.json
+*master.json
+
+# Ignore all user deliveries locally except the README and keep file
+entregas/*
+!entregas/.gitkeep
+!entregas/README.md

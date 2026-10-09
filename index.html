@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP5 - Pruebas de Independencia | UCSE 2026</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0a0e17',
+                        cardBg: 'rgba(17, 24, 39, 0.7)',
+                        primary: '#8b5cf6',
+                        secondary: '#06b6d4',
+                        emerald: '#10b981',
+                        amber: '#f59e0b',
+                        rose: '#f43f5e'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-darkBg text-gray-200 font-sans min-h-screen flex flex-col relative overflow-x-hidden selection:bg-primary/30 selection:text-white">
+    <!-- Ambient Glowing Gradient Orbs -->
+    <div class="fixed top-[-20%] left-[-10%] w-[55%] h-[55%] bg-primary/15 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[55%] h-[55%] bg-secondary/15 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <!-- Top Institution Bar -->
+    <header class="border-b border-white/5 bg-black/40 backdrop-blur-md sticky top-0 z-50 py-3">
+        <div class="container mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-bold tracking-widest uppercase bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    UCSE • Facultad de Ingeniería
+                </span>
+                <span class="text-gray-600 text-xs">|</span>
+                <span class="text-xs text-gray-400 font-medium">Modelos y Simulación 2026</span>
+            </div>
+            <div class="flex items-center gap-2 text-xs text-gray-400">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Web-First Autograding (Zero-Knowledge)</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 relative z-10 flex-grow max-w-7xl">
+        
+        <!-- Hero Header -->
+        <section class="text-center mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-3">
+                <span>Laboratorio Interactivo • Trabajo Práctico N° 5</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-[Outfit] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary via-indigo-300 to-secondary mb-3 tracking-tight">
+                Pruebas Estadísticas de Independencia
+            </h1>
+            <p class="text-sm md:text-base text-gray-400 max-w-3xl mx-auto leading-relaxed">
+                Valide la hipótesis nula (<strong class="text-gray-200">H₀</strong>) de que las secuencias de números pseudoaleatorios provienen de variables estocásticas independientes. Cada alumno cuenta con dos pruebas asignadas individualmente.
+            </p>
+        </section>
+
+        <!-- Selector de Alumno (8 Ejercitaciones Diferenciadas) -->
+        <section class="mb-8">
+            <div class="text-center mb-3">
+                <span class="text-xs uppercase tracking-wider text-gray-400 font-semibold">Selecciona tu Asignación Individualizada:</span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2" id="exercise-tabs"></div>
+            <div class="text-center mt-3">
+                <span id="current-asig-title" class="text-xs font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/40 px-3 py-1 rounded-full"></span>
+            </div>
+        </section>
+
+        <!-- Botón Central de Validación y Descarga de Comprobante -->
+        <div class="text-center mb-10">
+            <button id="btn-validate-all" class="bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold py-3.5 px-8 rounded-full shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all transform hover:scale-105 text-sm md:text-base flex items-center gap-2 mx-auto">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 1118 0z"></path></svg>
+                <span>Validar Ambos Ejercicios y Descargar Comprobante</span>
+            </button>
+            <p class="text-[11px] text-gray-500 mt-2">Valida localmente mediante SHA-256 criptográfico sin enviar datos a servidores externos.</p>
+        </div>
+
+        <!-- Layout Grilla de Ejercicios A y B -->
+        <div class="space-y-12">
+            
+            <!-- EJERCICIO A -->
+            <section class="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden border border-white/5">
+                <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-primary to-indigo-600"></div>
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-primary font-bold">Primera Prueba Asignada</span>
+                        <h2 class="text-2xl md:text-3xl font-[Outfit] font-bold text-white">Ejercicio A</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <!-- Columna Izquierda: Parámetros y Secuencia -->
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-sm font-[Outfit] uppercase tracking-wider font-semibold text-gray-300 mb-2 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-primary"></span> Parámetros del Ensayo
+                            </h3>
+                            <div class="glass-card-subtle p-5 rounded-xl border border-white/5">
+                                <div id="enunciado-desc-A"></div>
+                                
+                                <div class="mt-4">
+                                    <h4 class="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider flex items-center justify-between">
+                                        <span>Secuencia de Datos Original (rᵢ):</span>
+                                        <span class="text-[10px] text-gray-500 font-normal">Valores con redondeo estandarizado</span>
+                                    </h4>
+                                    <div class="bg-black/50 p-3 rounded-lg max-h-48 overflow-y-auto font-mono text-xs text-secondary/90 leading-relaxed border border-white/5" id="datos-raw-A"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Workbench y Visualizador -->
+                    <div class="space-y-6">
+                        <div class="glass-card-subtle p-5 rounded-xl border border-white/5">
+                            <h3 class="text-sm font-[Outfit] uppercase tracking-wider font-semibold text-white mb-3 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Workbench de Cómputo (A)
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-4">Ingresa tus resultados con redondeo a 4 decimales. El evaluador valida con tolerancia cero.</p>
+                            <form id="calc-form-A" class="space-y-2.5" onsubmit="event.preventDefault();"></form>
+                        </div>
+
+                        <div class="glass-card-subtle p-4 rounded-xl border border-white/5">
+                            <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                                Representación Gráfica Interactiva
+                            </h4>
+                            <div class="relative w-full h-[260px] bg-[#0b0f19] rounded-lg overflow-hidden border border-white/5">
+                                <canvas id="graficoCanvas-A" class="w-full h-full"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EJERCICIO B -->
+            <section class="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden border border-white/5">
+                <div class="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-secondary to-teal-500"></div>
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div>
+                        <span class="text-xs font-mono uppercase tracking-widest text-secondary font-bold">Segunda Prueba Asignada</span>
+                        <h2 class="text-2xl md:text-3xl font-[Outfit] font-bold text-white">Ejercicio B</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    <!-- Columna Izquierda: Parámetros y Secuencia -->
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-sm font-[Outfit] uppercase tracking-wider font-semibold text-gray-300 mb-2 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-secondary"></span> Parámetros del Ensayo
+                            </h3>
+                            <div class="glass-card-subtle p-5 rounded-xl border border-white/5">
+                                <div id="enunciado-desc-B"></div>
+                                
+                                <div class="mt-4">
+                                    <h4 class="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider flex items-center justify-between">
+                                        <span>Secuencia de Datos Original (rᵢ):</span>
+                                        <span class="text-[10px] text-gray-500 font-normal">Valores con redondeo estandarizado</span>
+                                    </h4>
+                                    <div class="bg-black/50 p-3 rounded-lg max-h-48 overflow-y-auto font-mono text-xs text-secondary/90 leading-relaxed border border-white/5" id="datos-raw-B"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Workbench y Visualizador -->
+                    <div class="space-y-6">
+                        <div class="glass-card-subtle p-5 rounded-xl border border-white/5">
+                            <h3 class="text-sm font-[Outfit] uppercase tracking-wider font-semibold text-white mb-3 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Workbench de Cómputo (B)
+                            </h3>
+                            <p class="text-xs text-gray-400 mb-4">Ingresa tus resultados con redondeo a 4 decimales. El evaluador valida con tolerancia cero.</p>
+                            <form id="calc-form-B" class="space-y-2.5" onsubmit="event.preventDefault();"></form>
+                        </div>
+
+                        <div class="glass-card-subtle p-4 rounded-xl border border-white/5">
+                            <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path></svg>
+                                Representación Gráfica Interactiva
+                            </h4>
+                            <div class="relative w-full h-[260px] bg-[#0b0f19] rounded-lg overflow-hidden border border-white/5">
+                                <canvas id="graficoCanvas-B" class="w-full h-full"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Footer Institucional -->
+    <footer class="border-t border-white/5 bg-black/60 py-6 mt-12 text-center text-xs text-gray-500">
+        <div class="container mx-auto px-4">
+            <p class="mb-1">Universidad Católica de Santiago del Estero • Facultad de Ingeniería • Modelos y Simulación 2026</p>
+            <p class="text-gray-600">Equipo Docente: Ing. María Fernanda Vázquez (Titular) | Ing. Fabio Damián Argañaraz Azua (JTP)</p>
+        </div>
+    </footer>
+
+    <!-- Scripts de Lógica y Datos -->
+    <script src="js/ejercicios_data.js"></script>
+    <script src="js/visualizadores.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
